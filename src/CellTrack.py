@@ -345,13 +345,17 @@ class CellTrack:
         """
             delete specific cell record from all attributes according to the index given
         """
-        self.bboxes = np.delete(self.bboxes, index, axis=0)
-        del_color = self.colors.pop(index)
-        self.initialPos = np.delete(self.initialPos, index, axis=0)
-        del_pos = self.positions.pop(index)
-        del_data = self.dataset.pop(index)
-        del_dawdle_cnt = self.dawdle_cnt.pop(index)
-        del_cvcnt = self.continuous_valid_cnt.pop(index)
+		try:
+			self.bboxes = np.delete(self.bboxes, index, axis=0)
+			del_color = self.colors.pop(index)
+			self.initialPos = np.delete(self.initialPos, index, axis=0)
+			del_pos = self.positions.pop(index)
+			del_data = self.dataset.pop(index)
+			del_dawdle_cnt = self.dawdle_cnt.pop(index)
+			del_cvcnt = self.continuous_valid_cnt.pop(index)
+		except IndexError:
+			print('An index error occurred, here we just skip it for now...')
+			pass
 
 
     def plotResults(self):
