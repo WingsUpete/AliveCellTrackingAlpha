@@ -3,7 +3,7 @@ import sys
 from Config import *
 from CellTrack import *
 
-if __name__ == '__main__':
+def track_go():
     cell_track = CellTrack()
     resp = cell_track.readVideo()
     if resp == False:
