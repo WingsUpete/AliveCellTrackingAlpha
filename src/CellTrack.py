@@ -228,7 +228,7 @@ class CellTrack:
                     # judge dawdle
                     x = curRelPos[i][0]
                     y = curRelPos[i][1]
-                    rel_dist = x*x + y*y
+                    rel_dist = math.sqrt(x*x + y*y)
                     if rel_dist <= dawdle_dist_def:     # dawdling
                         self.dawdle_cnt[i] += 1
                         # further judge whether it exceeds threshold
@@ -310,7 +310,7 @@ class CellTrack:
                     last_ind = len(self.positions[i])-2
                     x = self.positions[i][last_ind+1][0] - self.positions[i][last_ind][0]
                     y = self.positions[i][last_ind+1][1] - self.positions[i][last_ind][1]
-                    rel_dist = x*x + y*y
+                    rel_dist = math.sqrt(x*x + y*y)
                     if rel_dist < CellTrack.miss_judge:     # really missing
                         # say goodbye to this cell
                         # self.deleteCellRecord(i)  # if delete now, list will change
@@ -355,6 +355,8 @@ class CellTrack:
             del_cvcnt = self.continuous_valid_cnt.pop(index)
         except IndexError:
             print('An index error occurred, here we just skip it for now...')
+            print(self.del_list)
+            print(index)
             pass
 
 
@@ -368,10 +370,13 @@ class CellTrack:
         dataset = np.array(self.data_res + self.dataset)    # add everything left
         self.data_res_colors += self.colors
         for i in range(len(dataset)):
-            data = dataset[i]
-            xs = data[:,:1]
-            ys = data[:,1:] * -1    # on image for y: lower larger; however when plotting, higher larger.
-            plot_line = plt.plot(xs, ys, color=(float(self.data_res_colors[i][2])/255,float(self.data_res_colors[i][1])/255,float(self.data_res_colors[i][0])/255))
+            try:
+                data = dataset[i]
+                xs = data[:,:1]
+                ys = data[:,1:] * -1    # on image for y: lower larger; however when plotting, higher larger.
+                plot_line = plt.plot(xs, ys, color=(float(self.data_res_colors[i][2])/255,float(self.data_res_colors[i][1])/255,float(self.data_res_colors[i][0])/255))
+            except:
+                print('An error occurred when plotting results... Here we just pass it')
         # hl = plt.hlines(0,-20,20)
         # vl = plt.vlines(0,-20,20)
         plt.show()
@@ -381,5 +386,8 @@ class CellTrack:
     def saveToFile(self, filename):
         # np.savetxt('out/out_txt.txt', dataset)     # save as txt to existing file
         dataset = np.array(self.data_res + self.dataset)    # add everything left
-        np.save("out/" + filename, dataset)    # save in format of numpy array config
-        print('data saved to out/{}'.format(filename))
+        try:
+            np.save("out/" + filename, dataset)    # save in format of numpy array config
+            print('data saved to out/{}'.format(filename))
+        except:
+            print('sth went wrong on saving the data to file... Here we just pass it')
