@@ -188,6 +188,8 @@ class CellTrack:
                     if i not in self.del_list and self.continuous_valid_cnt[i] < valid_threshold:  # not enough valid records, sorry...
                         # self.deleteCellRecord(i)
                         self.del_list.append(i)
+                        self.tracking_cell_cnt -= 1
+                        self.miss_cnt += 1
                 # delete now will be save, and in reverse order
                 self.del_list.sort()
                 self.del_list = self.del_list[::-1]
@@ -281,6 +283,8 @@ class CellTrack:
                         if i not in self.del_list and self.continuous_valid_cnt[i] < valid_threshold:  # not enough valid records, sorry...
                             # self.deleteCellRecord(i)
                             self.del_list.append(i)
+                            self.tracking_cell_cnt -= 1
+                            self.miss_cnt += 1
                     # delete now will be save, and in reverse order
                     print('manually terminated')
                     self.del_list.sort()
@@ -370,15 +374,10 @@ class CellTrack:
         dataset = np.array(self.data_res + self.dataset)    # add everything left
         self.data_res_colors += self.colors
         for i in range(len(dataset)):
-            try:
-                data = dataset[i]
-                xs = data[:,:1]
-                ys = data[:,1:] * -1    # on image for y: lower larger; however when plotting, higher larger.
-                plot_line = plt.plot(xs, ys, color=(float(self.data_res_colors[i][2])/255,float(self.data_res_colors[i][1])/255,float(self.data_res_colors[i][0])/255))
-            except:
-                print('An error occurred when plotting results... Here we just pass it')
-        # hl = plt.hlines(0,-20,20)
-        # vl = plt.vlines(0,-20,20)
+            data = np.array(dataset[i])
+            xs = (data[:,1:].reshape(-1)).tolist()
+            ys = ((data[:,:1] * -1).reshape(-1)).tolist()
+            plot_line = plt.plot(xs, ys, color=(float(self.data_res_colors[i][2])/255,float(self.data_res_colors[i][1])/255,float(self.data_res_colors[i][0])/255))
         plt.show()
         plt.close('all')
 
@@ -386,8 +385,11 @@ class CellTrack:
     def saveToFile(self, filename):
         # np.savetxt('out/out_txt.txt', dataset)     # save as txt to existing file
         dataset = np.array(self.data_res + self.dataset)    # add everything left
-        try:
-            np.save("out/" + filename, dataset)    # save in format of numpy array config
-            print('data saved to out/{}'.format(filename))
-        except:
-            print('sth went wrong on saving the data to file... Here we just pass it')
+        for i in range(len(dataset)):
+            data = dataset[i]
+            for j in range(len(data)):
+                tp = data[j]
+                data[j] = np.array((tp[1], tp[0]))
+            dataset[i] = data
+        np.save("out/" + filename, dataset)    # save in format of numpy array config
+        print('data saved to out/{}'.format(filename))

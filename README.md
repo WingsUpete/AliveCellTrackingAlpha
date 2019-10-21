@@ -70,11 +70,67 @@ We are encountering lots of problems during implementations, listed as below:
 
 ## Ideas and Design
 
+-   There are 8 standard trackers in the OpenCV package:
+
+`BOOSTING`, `MIL`, `KCF`, `TLD`, `MEDIANFLOW`, `GOTURN`, `MOSSE`, `CSRT`
+
+After testing each tracker, we found that CSRT tracker has the best tracking precision on cells.
+
+CSRT is also specified as CSR-DCF (*Discriminative Correlation Filter Tracker with Channel and Spatial Reliability*). It considers using learned filter sets to detect possible objects with channel and spatial reliability. With this tracker, we are able to locate each cell at a nice precision.
+
+-   For a period of time, we tried to implement the platform under *C++*, but later on we switched to *Python*, because the plotting tool (`Matplotlib`) and the file chooser (`tkinter`) can be easily packed into the platform.
+
+-   The next thing to consider seriously is the missing judgment.
+
+    If a cell gets lost, there are two conditions:
+
+    1.  The multi-tracker claims to lose track of it.
+    2.  The cell may not be alive anymore, so it is “sitting” in the video. Or under slight turbulences, it seems to “dawdle” around. When this happens in more than a certain number of continuous frames, it may be necessary to doubt whether this cell is still alive or not.
+
+---
+
+Using the idea above, we drew a flow chart to further extend our ideas:
+
+[graph](#)
+
 
 
 
 
 ## Implementation
+
+The main algorithm follows the current pseudocode:
+
+```python
+Handle all parameters in the GUI platform
+start the program by reading a source video
+select cells to track
+assign random colors to new selected cells
+initialize a multi-tracker
+keep track of the cells until the tracker finishes its life cycle, or the number of missing cells exceeds the threshold
+If the user wants to continue adding new cells, jump to step 3 (the selection process). If the user wants to finish, go to the next step
+save the data of tracking cells' positions into a file
+use the data to plot out a graph
+finish
+```
+
+To check the detailed implementations, visit the *Github* page of our project.
+
+The timeline of our implementations is as follow:
+
+1.  Implement basic multi-tracker function.
+2.  Dig out the parameters and divide them into an individual file - `Config.py`.
+3.  Add a file chooser to let the user choose the source video using a more visualized view.
+
+4.  Implement the plotting function to plot the results.
+5.  Handle the data saving process.
+6.  Further implement the miss detection procedure to detect missing cells and delete them from the dataset.
+7.  When cells are missing, their previous data may still be valuable. Check whether the maximum continuous valid frames these cells endure have exceeded the threshold.
+8.  Implement a simple GUI to manage the parameters.
+
+
+
+## A Simple Demo of our Platform
 
 
 

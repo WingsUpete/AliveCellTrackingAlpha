@@ -2,6 +2,8 @@ import tkinter
 from tkinter import ttk
 from iGEM_Cell_Tracking import *
 from CellTrack import *
+from Config import *
+
 root =tkinter.Tk()
 root.title("Cell Checking GUI")
 root.geometry("400x400+200+50")
@@ -95,6 +97,8 @@ def func():
     valid_threshold = float(valid_threshold_setup.get())
 
     MISS_JUDGE = float(MISS_JUDGE_setup.get())
+
+    print(max_cell_cnt)
 
     track_go()
 
