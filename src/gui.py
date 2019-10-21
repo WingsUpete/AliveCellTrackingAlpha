@@ -79,7 +79,7 @@ def func():
     else:
         showCrosshair=False
 
-    if fromCenter_setup.get()=="True"
+    if fromCenter_setup.get()=="True":
         fromCenter=True
     else:
         fromCenter=False

@@ -9,7 +9,7 @@ This is an **[iGEM 2019](https://2019.igem.org)** product from team **[SUSTech_S
 
 -   The coding is mainly completed by *Peter S*.
 
--   The GUI interface is implemented by *Chaoxing Huang*.
+-   The GUI interface is implemented by *[Huang Chaoxin](https://github.com/teachmain)*.
 
 ---
 
@@ -19,7 +19,9 @@ Before really into using this tool, be aware that this is **only a prototype**, 
 
 ## Features
 
-
+-   Customizable Parameters
+-   Simple GUI Interface
+-   
 
 
 
