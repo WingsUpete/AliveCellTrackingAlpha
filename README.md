@@ -1,5 +1,5 @@
 # Alive Cell Tracking Alpha
-An Alpha version of tracking algorithm targeting alive cells with strong deformability, and without exposure of fluorescence.
+An Alpha version of tracking algorithm targeting alive cells with strong deformability, and without exposure of dye or fluorescence.
 
 ---
 
@@ -13,7 +13,7 @@ This is an **[iGEM 2019](https://2019.igem.org)** product from team **[SUSTech_S
 
 ---
 
-For researchers and iGEMers, feel free to use this tool if you want to keep track of alive cells for a relatively large amount of time, and without using dye or fluorescence.
+For researchers and iGEMers, feel free to use this tool if you want to keep track of alive cells with strong deformability for a relatively large amount of time, and without using dye or fluorescence.
 
 However, be aware that this is **only a prototype**, meaning that under certain occasions it may not work well as expected. More tests and adjustments are needed in the current stage.
 
@@ -39,8 +39,12 @@ However, be aware that this is **only a prototype**, meaning that under certain 
 
 ## Motivation
 
-In our project, we need to keep track of HL60 to see whether its movement has been affected by IL8. Specifically, we hope to keep our cells alive for a certain amount of time and thus we cannot expose them under fluorescence all the time.
-The other problem is that each tracking process produces more than 1500 frames, which makes it a nightmare for researchers who want to point out each cell manually.
+In the previous [Modeling](https://2019.igem.org/Team:SUSTech_Shenzhen/Model) and [Hardware](https://2019.igem.org/Team:SUSTech_Shenzhen/Hardware) sessions, we have managed to characterize the secretion process by measuring how many proteins our cells secreted. However, it is still very essential to verify the biological activity of these proteins, which could be a nice proof of the effectiveness of regulation we have described in the previous sessions. Simply in the verification process of our project, we need to keep track of HL60 to see whether its movement has been affected by IL8.
+
+Specifically, we hope to keep our cells alive for a certain amount of time and thus we cannot expose them under any dye or fluorescence during the process.
+
+Another problem is that the videos of moving cells, passed into the software as an input, can last for a long time. Suppose an 8-minute long video with 30fps, which has about 15,000 frames, is selected for a cell tracking process. It will indeed be a nightmare for those researchers who are used to pointing out cells in frames manually.
+
 If we can build a simple software to somehow track down as many cells per frame as we can, and control the precision under a specified level in the meantime, the problems above might be solved.
 
 
@@ -50,6 +54,9 @@ If we can build a simple software to somehow track down as many cells per frame 
 For the time being, most of the cell trackers available online are only able to detect the positions of deal cells, rather than tracking moving cells.
 
 There are also plenty specific to keeping track of molecules in the cellular environment, but the molecules are also processed with fluorescence, which does not meet our needs.
+
+Furthermore, as our instructor 
+
 In general, we need an approach to keep track of cells that are:
 
 -   Alive
@@ -99,9 +106,9 @@ Using the idea above, we drew a flow chart to further extend our ideas:
 
 ## Implementation
 
-The main algorithm follows the current pseudocode:
+The main algorithm follows the current process described:
 
-```python
+```pseudocode
 Handle all parameters in the GUI platform
 start the program by reading a source video
 select cells to track
@@ -114,9 +121,9 @@ use the data to plot out a graph
 finish
 ```
 
-To check the detailed implementations, visit the *Github* page of our project.
+To check the detailed implementations, visit the [***GitHub***](https://github.com/WingsUpete/AliveCellTrackingAlpha) page of our project.
 
-The timeline of our implementations is as follow:
+The implementation process is as follow:
 
 1.  Implement basic multi-tracker function.
 2.  Dig out the parameters and divide them into an individual file - `Config.py`.
@@ -148,5 +155,7 @@ Please check the file: [CC4.0.license](CC4.0.license).
 
 The name “C-hoop” is derived from “Constraint hoop”, an artifact used to restrict the power of Monkey King. Our “hoop” is used to manipulate the mammalian cell behavior.
 
-For more details, check our **[Description](https://2019.igem.org/Team:SUSTech_Shenzhen/Description)** page.
+Most of the contents in this documentation can also be found in our [**Software**](https://2019.igem.org/Team:SUSTech_Shenzhen/Software) page.
+
+To learn more about our project, check our **[Description](https://2019.igem.org/Team:SUSTech_Shenzhen/Description)** page.
 
